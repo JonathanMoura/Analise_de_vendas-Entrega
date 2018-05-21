@@ -175,6 +175,12 @@ public class TelaCadProd extends JFrame {
 		mnProduto.add(mntmCadastrar);
 		
 		JMenuItem mntmEditar = new JMenuItem("Buscar");
+		mntmEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaBuscaProd.getInstance().setVisible(true);
+				dispose();
+			}
+		});
 		mnProduto.add(mntmEditar);
 		
 		JMenuItem mntmDistribuir = new JMenuItem("Distribuir");

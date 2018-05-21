@@ -32,16 +32,29 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import negocio.ClasseAssistente;
+import negocio.ValidarDados;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaBuscaProd extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textFieldNome;
 	private JTable table;
+	public static TelaBuscaProd instance;
 
+	public static TelaBuscaProd getInstance() {
+		if (instance == null)
+			instance = new TelaBuscaProd();
+		return instance;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -104,12 +117,24 @@ public class TelaBuscaProd extends JFrame {
 		label.setBounds(90, 30, 86, 21);
 		panel.add(label);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(150, 31, 140, 20);
-		panel.add(textField);
+		textFieldNome = new JTextField();
+		textFieldNome.setColumns(10);
+		textFieldNome.setBounds(150, 31, 140, 20);
+		panel.add(textFieldNome);
 		
 		JButton btnNewButton = new JButton("Buscar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (ValidarDados.validarCampoVazio(textFieldNome.getText())) {
+					if(ClasseAssistente.produto.getNome().equals(textFieldNome.getText())){
+						table.setValueAt(ClasseAssistente.produto.getNome(), 0, 1);
+						table.setValueAt(ClasseAssistente.produto.getDescricao(), 0, 2);
+						table.setValueAt(String.valueOf(ClasseAssistente.produto.getQuantidade()), 0, 3);
+						table.setValueAt(ClasseAssistente.produto.getValor(), 0, 4); 
+					}
+				}
+			}
+		});
 		btnNewButton.setBounds(349, 28, 89, 23);
 		panel.add(btnNewButton);
 		
@@ -119,12 +144,12 @@ public class TelaBuscaProd extends JFrame {
 		panel.add(lblResultado);
 		
 		String colunas[]={"Nome","Descrição","Quantidade","Valor"};
-		String dados[][] = {{"nome","descrição","quantidade","valor"}};
+		String dados[][] = {{"","","",""}};
 		table = new JTable(dados,colunas);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, "nome", "descri\u00E7\u00E3o", "quantidade", "valor"},
+				{null, "", "", "", ""},
 			},
 			new String[] {
 				"Selecionar", "Nome", "Descri\u00E7\u00E3o", "Quantidade", "Valor"
@@ -162,6 +187,12 @@ public class TelaBuscaProd extends JFrame {
 		menuBar.add(menu);
 		
 		JMenuItem menuItem = new JMenuItem("Cadastrar");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaCadProd.getInstance().setVisible(true);
+				dispose();
+			}
+		});
 		menu.add(menuItem);
 		
 		JMenuItem menuItem_1 = new JMenuItem("Buscar");

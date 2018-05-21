@@ -47,6 +47,19 @@ public class ValidarDados {
 		}
 		return true;
 	}
+	
+	public static boolean validarCampoVazio(String arg0) {
+		try {
+			if (arg0.equals("")) {
+				CampoVazioException cve = new CampoVazioException();
+				throw cve;
+			}
+		} catch (CampoVazioException cve) {
+			JOptionPane.showMessageDialog(null, cve.getMessage(),MSGALERT,JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
+	}
 		
 	public static String identificaFuncao(){
 		switch(funcionario.getFuncao()){

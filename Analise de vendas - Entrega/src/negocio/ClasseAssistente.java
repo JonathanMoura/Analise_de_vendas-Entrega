@@ -15,6 +15,6 @@ package negocio;
 public class ClasseAssistente {
 	public static Produto produto;
 	public static void cadastrar(Produto produto){
-		produto = produto;
+		ClasseAssistente.produto = produto;
 	}
 }
